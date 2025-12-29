@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paddle Watch - Little River Canyon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #92400e 100%);
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .back-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .map-panel {
+            grid-row: 2;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-panel iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .right-panel {
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .webcam-panel {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .webcam-header {
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .webcam-header h3 {
+            font-size: 0.9rem;
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        .webcam-header .live-badge {
+            background: #ef4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .webcam-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1f2937;
+            position: relative;
+        }
+
+        .webcam-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .webcam-footer {
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .river-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .river-panel h2 {
+            font-size: 1rem;
+            color: #1f2937;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .river-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid #f59e0b;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .river-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .river-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stat {
+            background: rgba(0, 0, 0, 0.03);
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* LRC Special 6-level classification */
+        .status-not-runnable { background: #f6f7f9; color: #6b7280; }
+        .status-good-low { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #92400e; }
+        .status-shitty-medium { background: linear-gradient(135deg, #d4a574 0%, #a67c52 100%); color: #fff; }
+        .status-good-medium { background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%); color: #166534; }
+        .status-good-high { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #fff; }
+        .status-too-high { background: linear-gradient(135deg, #fca5a5 0%, #ef4444 100%); color: #fff; }
+
+        .weather-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #4b5563;
+        }
+
+        .qpf-row {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .qpf-title {
+            font-size: 0.7rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .qpf-values {
+            display: flex;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+
+        .qpf-day {
+            color: #4b5563;
+        }
+
+        .qpf-day strong {
+            color: #1f2937;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+
+        .error {
+            text-align: center;
+            padding: 20px;
+            color: #ef4444;
+        }
+
+        /* Level guide */
+        .level-guide {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .level-guide-title {
+            font-size: 0.7rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .level-guide-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .level-item {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 300px auto auto;
+            }
+
+            .map-panel {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            .right-panel {
+                grid-column: 1;
+                grid-row: 3 / 5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <a href="/" class="back-link">&larr; All Rivers</a>
+            <h1>Paddle Watch for Little River Canyon</h1>
+        </div>
+
+        <div class="map-panel">
+            <!-- Windy.com embed centered on Little River Canyon area -->
+            <iframe
+                src="https://embed.windy.com/embed2.html?lat=34.37&lon=-85.63&detailLat=34.37&detailLon=-85.63&zoom=11&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="right-panel">
+            <div class="webcam-panel">
+                <div class="webcam-header">
+                    <h3>Albertville - Sand Mountain</h3>
+                    <span class="live-badge">LIVE</span>
+                </div>
+                <div class="webcam-container">
+                    <img
+                        id="weather-cam"
+                        src="https://ftp2.waaytv.com/weather/31albertville.jpg"
+                        alt="Albertville Weather Camera"
+                    />
+                </div>
+                <div class="webcam-footer">
+                    WAAY 31 - Sand Mountain Park & Amphitheater
+                </div>
+            </div>
+
+            <div class="river-panel">
+                <h2>River Status</h2>
+                <div id="river-data" class="loading">Loading river data...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Refresh weather camera every 60 seconds (WAAY updates ~every 3 min)
+        const weatherCam = document.getElementById('weather-cam');
+        const camBaseUrl = 'https://ftp2.waaytv.com/weather/31albertville.jpg';
+
+        setInterval(() => {
+            weatherCam.src = camBaseUrl + '?t=' + Date.now();
+        }, 60000);
+
+        // LRC special 6-level classification
+        function getLRCStatus(cfs) {
+            if (cfs < 250) return { class: 'status-not-runnable', label: 'Not Runnable' };
+            if (cfs < 400) return { class: 'status-good-low', label: 'Good Low' };
+            if (cfs < 800) return { class: 'status-shitty-medium', label: 'Shitty Medium' };
+            if (cfs < 1500) return { class: 'status-good-medium', label: 'Good Medium' };
+            if (cfs < 2500) return { class: 'status-good-high', label: 'BEST!' };
+            return { class: 'status-too-high', label: 'Too High' };
+        }
+
+        async function fetchRiverData() {
+            const container = document.getElementById('river-data');
+
+            try {
+                const response = await fetch('/api/river/lrc');
+                const river = await response.json();
+
+                if (river.error || !river.data) {
+                    container.innerHTML = `<div class="error">Unable to load river data</div>`;
+                    return;
+                }
+
+                const data = river.data;
+                const cfs = data.flow_cfs || 0;
+                const status = getLRCStatus(cfs);
+
+                // Weather info
+                const weather = data.weather || {};
+                const temp = weather.temp_f !== undefined ? `${weather.temp_f}°F` : '--';
+                const wind = weather.wind_mph !== undefined ? `${weather.wind_mph} mph ${weather.wind_dir || ''}` : '--';
+
+                // QPF (rainfall forecast)
+                const qpf = data.qpf || {};
+
+                container.innerHTML = `
+                    <div class="river-card">
+                        <div class="river-name">${river.name}</div>
+                        <div class="river-stats">
+                            <div class="stat">
+                                <div class="stat-label">Flow</div>
+                                <div class="stat-value">${data.flow || cfs + ' cfs'}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Trend</div>
+                                <div class="stat-value">${data.trend || '-- '}</div>
+                            </div>
+                        </div>
+                        <span class="status-badge ${status.class}">${status.label}</span>
+                        <div class="weather-row">
+                            <span>Temp: ${temp}</span>
+                            <span>Wind: ${wind}</span>
+                        </div>
+                        ${qpf.today !== undefined ? `
+                        <div class="qpf-row">
+                            <div class="qpf-title">Rain Forecast</div>
+                            <div class="qpf-values">
+                                <span class="qpf-day">Today: <strong>${qpf.today.toFixed(2)}"</strong></span>
+                                <span class="qpf-day">Tom: <strong>${(qpf.tomorrow || 0).toFixed(2)}"</strong></span>
+                                <span class="qpf-day">Day 3: <strong>${(qpf.day3 || 0).toFixed(2)}"</strong></span>
+                            </div>
+                        </div>
+                        ` : ''}
+                        <div class="level-guide">
+                            <div class="level-guide-title">LRC Flow Guide</div>
+                            <div class="level-guide-items">
+                                <span class="level-item status-not-runnable">&lt;250 Out</span>
+                                <span class="level-item status-good-low">250-400 Low</span>
+                                <span class="level-item status-shitty-medium">400-800 Meh</span>
+                                <span class="level-item status-good-medium">800-1500 Good</span>
+                                <span class="level-item status-good-high">1500-2500 BEST</span>
+                                <span class="level-item status-too-high">&gt;2500 High</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error fetching river data:', error);
+                container.innerHTML = `<div class="error">Error loading data</div>`;
+            }
+        }
+
+        // Initial fetch and refresh every 60 seconds
+        fetchRiverData();
+        setInterval(fetchRiverData, 60000);
+    </script>
+</body>
+</html>

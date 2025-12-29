@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paddle Watch - Short Creek & South Sauty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            transition: background 0.2s;
+            margin-right: 12px;
+        }
+
+        .back-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            height: calc(100vh - 60px);
+            gap: 0;
+        }
+
+        /* Left Panel - Map */
+        .map-panel {
+            position: relative;
+            background: #1a1a2e;
+        }
+
+        .map-panel iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+
+        /* Webcam Section */
+        .webcam-section {
+            flex: 0 0 45%;
+            position: relative;
+            background: #000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .webcam-section iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .webcam-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .live-indicator {
+            width: 6px;
+            height: 6px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* River Data Section */
+        .river-section {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        /* Glassmorphism River Cards */
+        .river-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow:
+                0 4px 30px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .river-card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .river-card.status-in {
+            border-left: 4px solid #fbbf24;
+        }
+
+        .river-card.status-good {
+            border-left: 4px solid #22c55e;
+        }
+
+        .river-card.status-out {
+            border-left: 4px solid #9ca3af;
+        }
+
+        .river-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .river-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .river-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .river-status.in {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #78350f;
+        }
+
+        .river-status.good {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .river-status.out {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        .river-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .metric {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .metric-value.rising {
+            color: #22c55e;
+        }
+
+        .metric-value.falling {
+            color: #ef4444;
+        }
+
+        .metric-unit {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #6b7280;
+        }
+
+        /* Sparkline */
+        .sparkline-container {
+            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .sparkline-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .sparkline {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 40px;
+        }
+
+        .sparkline-bar {
+            flex: 1;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px 2px 0 0;
+            min-height: 4px;
+            transition: height 0.3s ease;
+        }
+
+        .sparkline-bar.below {
+            background: linear-gradient(180deg, #f87171 0%, #dc2626 100%);
+        }
+
+        .sparkline-bar.above {
+            background: linear-gradient(180deg, #4ade80 0%, #22c55e 100%);
+        }
+
+        /* Weather Summary */
+        .weather-summary {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 8px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            text-align: center;
+        }
+
+        .weather-item {
+            padding: 8px;
+        }
+
+        .weather-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .weather-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .weather-label {
+            font-size: 0.65rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* QPF Card */
+        .qpf-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .qpf-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .qpf-days {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .qpf-day {
+            text-align: center;
+            flex: 1;
+        }
+
+        .qpf-day-label {
+            font-size: 0.65rem;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+
+        .qpf-day-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            color: #6b7280;
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.7rem;
+            color: #9ca3af;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="back-link">&larr; All Rivers</a>
+        <div class="logo">
+            <span class="logo-icon">🛶</span>
+            <h1>Paddle Watch for South Sauty and Short Creek</h1>
+        </div>
+        <div class="header-info">
+            <span class="status-dot"></span>
+            <span>Live</span>
+            <span id="last-update">Loading...</span>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Left Panel: Wind Map -->
+        <div class="map-panel">
+            <iframe
+                src="https://embed.windy.com/embed2.html?lat=34.39&lon=-86.16&detailLat=34.39&detailLon=-86.16&zoom=11&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <!-- Webcam Section -->
+            <div class="webcam-section">
+                <div class="webcam-label">
+                    <span class="live-indicator"></span>
+                    Guntersville Lake & Dam
+                </div>
+                <iframe
+                    src="https://www.ipcamlive.com/player/player.php?alias=guntersville2&autoplay=1"
+                    allowfullscreen
+                    allow="autoplay; fullscreen">
+                </iframe>
+            </div>
+
+            <!-- River Data Section -->
+            <div class="river-section">
+                <div class="section-title">River Status</div>
+
+                <div id="river-cards">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        Loading river data...
+                    </div>
+                </div>
+
+                <div class="footer">
+                    Data from <a href="https://docker-blue-sound-1751.fly.dev/" target="_blank">USGS River Levels API</a>
+                    &bull; Updated every 60s
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Fetch and display river data
+        async function fetchRiverData() {
+            try {
+                const response = await fetch('/api/rivers');
+                const data = await response.json();
+                renderRiverCards(data);
+                updateTimestamp();
+            } catch (error) {
+                console.error('Error fetching river data:', error);
+                document.getElementById('river-cards').innerHTML = `
+                    <div class="loading">Error loading data. Retrying...</div>
+                `;
+            }
+        }
+
+        function renderRiverCards(rivers) {
+            const container = document.getElementById('river-cards');
+            let html = '';
+
+            for (const [key, river] of Object.entries(rivers)) {
+                if (river.error) {
+                    html += `
+                        <div class="river-card status-out">
+                            <div class="river-header">
+                                <span class="river-name">${river.name}</span>
+                                <span class="river-status out">Error</span>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Status</div>
+                                <div class="metric-value">${river.error}</div>
+                            </div>
+                        </div>
+                    `;
+                    continue;
+                }
+
+                const d = river.data;
+                const statusClass = d.in_range ? (d.stage_ft >= (d.good_ft || 999) ? 'good' : 'in') : 'out';
+                const statusText = d.in_range ? (statusClass === 'good' ? 'GOOD' : 'IN') : 'OUT';
+
+                // Parse trend
+                const trend = d.trend || '';
+                const trendClass = trend.includes('rising') ? 'rising' : (trend.includes('falling') ? 'falling' : '');
+                const trendArrow = trend.includes('rising') ? '↗' : (trend.includes('falling') ? '↘' : '→');
+
+                // Get flow/stage value
+                const flowValue = d.flow || `${d.stage_ft?.toFixed(2)} ft`;
+
+                // Weather
+                const weather = d.weather || {};
+                const temp = weather.temp_f;
+                const wind = weather.wind_mph;
+                const windDir = weather.wind_dir || '';
+
+                // QPF
+                const qpf = d.qpf || {};
+
+                // Sparkline data (simulated from trend_data if available)
+                const sparklineData = d.trend_data?.values || [];
+
+                html += `
+                    <div class="river-card status-${statusClass}">
+                        <div class="river-header">
+                            <span class="river-name">${river.name}</span>
+                            <span class="river-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="river-metrics">
+                            <div class="metric">
+                                <div class="metric-label">Level</div>
+                                <div class="metric-value">${flowValue}</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Trend</div>
+                                <div class="metric-value ${trendClass}">${trendArrow} ${trend.replace('->', '').trim() || 'steady'}</div>
+                            </div>
+                        </div>
+                        ${sparklineData.length > 0 ? `
+                        <div class="sparkline-container">
+                            <div class="sparkline-label">12hr History</div>
+                            <div class="sparkline">
+                                ${renderSparkline(sparklineData, d.min_ft || d.min_cfs || 0)}
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    ${key === 'short' && temp !== undefined ? `
+                    <div class="weather-summary">
+                        <div class="weather-grid">
+                            <div class="weather-item">
+                                <div class="weather-icon">${temp < 45 ? '❄️' : temp < 60 ? '🌤️' : '☀️'}</div>
+                                <div class="weather-value">${temp}°F</div>
+                                <div class="weather-label">Temp</div>
+                            </div>
+                            <div class="weather-item">
+                                <div class="weather-icon">💨</div>
+                                <div class="weather-value">${wind || 0} mph</div>
+                                <div class="weather-label">${windDir || 'Wind'}</div>
+                            </div>
+                            <div class="weather-item">
+                                <div class="weather-icon">🌧️</div>
+                                <div class="weather-value">${((qpf.today || 0) + (qpf.tomorrow || 0) + (qpf.day3 || 0)).toFixed(2)}"</div>
+                                <div class="weather-label">3-Day Rain</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qpf-card">
+                        <div class="qpf-title">🌧️ Rain Forecast (QPF)</div>
+                        <div class="qpf-days">
+                            <div class="qpf-day">
+                                <div class="qpf-day-label">Today</div>
+                                <div class="qpf-day-value">${(qpf.today || 0).toFixed(2)}"</div>
+                            </div>
+                            <div class="qpf-day">
+                                <div class="qpf-day-label">Tomorrow</div>
+                                <div class="qpf-day-value">${(qpf.tomorrow || 0).toFixed(2)}"</div>
+                            </div>
+                            <div class="qpf-day">
+                                <div class="qpf-day-label">Day 3</div>
+                                <div class="qpf-day-value">${(qpf.day3 || 0).toFixed(2)}"</div>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderSparkline(values, threshold) {
+            if (!values || values.length === 0) return '';
+
+            const max = Math.max(...values, threshold);
+            const min = Math.min(...values);
+            const range = max - min || 1;
+
+            return values.map(v => {
+                const height = Math.max(10, ((v - min) / range) * 100);
+                const aboveThreshold = v >= threshold;
+                return `<div class="sparkline-bar ${aboveThreshold ? 'above' : 'below'}" style="height: ${height}%"></div>`;
+            }).join('');
+        }
+
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('last-update').textContent =
+                now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        }
+
+        // Initial load
+        fetchRiverData();
+
+        // Refresh every 60 seconds
+        setInterval(fetchRiverData, 60000);
+    </script>
+</body>
+</html>
