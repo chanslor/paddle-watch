@@ -6,9 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 
 **Paddle Watch** - A collection of experimental kayaking dashboards combining live weather maps, webcams, and river data for Alabama rivers.
 
-**Production URL:** https://paddle-watch.fly.dev/
-
 **Related Project:** This app consumes data from the main USGS River Levels API at https://docker-blue-sound-1751.fly.dev/
+
+## Quick Access - All URLs
+
+| Page | URL |
+|------|-----|
+| **Main Landing Page** | https://paddle-watch.fly.dev/ |
+| Guntersville Area | https://paddle-watch.fly.dev/south-sauty-short-creek |
+| Little River Canyon | https://paddle-watch.fly.dev/little-river-canyon |
+| Health Check | https://paddle-watch.fly.dev/api/health |
 
 ## Working Directory
 

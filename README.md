@@ -5,7 +5,16 @@
 ![Concept](https://img.shields.io/badge/Status-Experimental-purple)
 ![Fly.io](https://img.shields.io/badge/Hosted-Fly.io-blueviolet)
 
-**Live URL:** https://paddle-watch.fly.dev/
+---
+
+## Quick Access - All URLs
+
+| Page | URL |
+|------|-----|
+| **Main Landing Page** | https://paddle-watch.fly.dev/ |
+| Guntersville Area | https://paddle-watch.fly.dev/south-sauty-short-creek |
+| Little River Canyon | https://paddle-watch.fly.dev/little-river-canyon |
+| Health Check | https://paddle-watch.fly.dev/api/health |
 
 ---
 

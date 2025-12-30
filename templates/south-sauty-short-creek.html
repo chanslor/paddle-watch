@@ -404,6 +404,58 @@
             color: #3b82f6;
         }
 
+        /* Locations Card */
+        .locations-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .locations-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #16a34a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .location-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.15);
+        }
+
+        .location-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .location-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .location-link {
+            font-size: 0.75rem;
+            color: #16a34a;
+            text-decoration: none;
+            padding: 4px 8px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .location-link:hover {
+            background: rgba(34, 197, 94, 0.2);
+        }
+
         /* Loading State */
         .loading {
             display: flex;
@@ -623,6 +675,18 @@
                                 <div class="qpf-day-label">Day 3</div>
                                 <div class="qpf-day-value">${(qpf.day3 || 0).toFixed(2)}"</div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="locations-card">
+                        <div class="locations-title">📍 Short Creek Paddle Locations</div>
+                        <div class="location-item">
+                            <span class="location-label">Put-in</span>
+                            <a class="location-link" href="https://maps.app.goo.gl/S7sgCqGY2Hg43J5H9" target="_blank">34.3007, -86.1813 ↗</a>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-label">Take-out (Boat Ramp)</span>
+                            <a class="location-link" href="https://maps.app.goo.gl/D2QKT4HobnhpRnnVA" target="_blank">34.3695, -86.2173 ↗</a>
                         </div>
                     </div>
                     ` : ''}
