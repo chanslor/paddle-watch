@@ -91,7 +91,7 @@
         /* Main Layout */
         .main-container {
             display: grid;
-            grid-template-columns: 1fr 420px;
+            grid-template-columns: 1fr 620px;
             height: calc(100vh - 60px);
             gap: 0;
         }
@@ -456,6 +456,47 @@
             background: rgba(34, 197, 94, 0.2);
         }
 
+        /* AQI Card */
+        .aqi-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .aqi-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #16a34a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .aqi-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .aqi-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .aqi-category {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+
+        .aqi-pm25 {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
         /* Loading State */
         .loading {
             display: flex;
@@ -689,6 +730,25 @@
                             <a class="location-link" href="https://maps.app.goo.gl/D2QKT4HobnhpRnnVA" target="_blank">34.3695, -86.2173 ↗</a>
                         </div>
                     </div>
+
+                    ${d.aqi && d.aqi.aqi !== undefined ? `
+                    <div class="aqi-card">
+                        <div class="aqi-title">🌬️ Air Quality</div>
+                        <div class="aqi-content">
+                            <div>
+                                <span class="aqi-value" style="color: ${d.aqi.color || '#888'}">
+                                    ${d.aqi.aqi}
+                                </span>
+                                <span class="aqi-category" style="color: ${d.aqi.color || '#888'}">
+                                    ${d.aqi.category || ''}
+                                </span>
+                            </div>
+                            <div class="aqi-pm25">
+                                PM2.5: ${(d.aqi.pm2_5 || 0).toFixed(1)} μg/m³
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
                     ` : ''}
                 `;
             }

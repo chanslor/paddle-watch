@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paddle Watch - Little River Canyon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,56 +15,91 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #92400e 100%);
             min-height: 100vh;
+            color: #1f2937;
         }
 
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            grid-template-rows: auto 1fr;
-            height: 100vh;
-            gap: 12px;
-            padding: 12px;
-        }
-
+        /* Header */
         .header {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 16px;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         .back-link {
-            color: rgba(255,255,255,0.8);
+            color: #f59e0b;
             text-decoration: none;
             font-size: 0.9rem;
             padding: 6px 12px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(245, 158, 11, 0.1);
             border-radius: 8px;
             transition: background 0.2s;
+            margin-right: 12px;
         }
 
         .back-link:hover {
-            background: rgba(255,255,255,0.25);
+            background: rgba(245, 158, 11, 0.2);
         }
 
-        .header h1 {
-            color: white;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .logo h1 {
             font-size: 1.5rem;
-            font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-weight: 700;
+            background: linear-gradient(135deg, #f59e0b, #92400e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 600px;
+            height: calc(100vh - 60px);
+            gap: 0;
+        }
+
+        /* Left Panel - Map */
         .map-panel {
-            grid-row: 2;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            background: #1a1a2e;
         }
 
         .map-panel iframe {
@@ -70,288 +108,491 @@
             border: none;
         }
 
+        /* Right Panel */
         .right-panel {
-            grid-row: 2;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
-
-        .webcam-panel {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
         }
 
-        .webcam-header {
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.5);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .webcam-header h3 {
-            font-size: 0.9rem;
-            color: #1f2937;
-            font-weight: 600;
-        }
-
-        .webcam-header .live-badge {
-            background: #ef4444;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .webcam-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #1f2937;
+        /* Webcam Section */
+        .webcam-section {
+            flex: 0 0 40%;
             position: relative;
+            background: #000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .webcam-container img {
+        .webcam-section img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        .webcam-footer {
-            padding: 6px 16px;
-            background: rgba(255, 255, 255, 0.5);
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        .webcam-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 0.75rem;
-            color: #6b7280;
-            text-align: center;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
         }
 
-        .river-panel {
+        .live-indicator {
+            width: 6px;
+            height: 6px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* River Data Section */
+        .river-section {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        /* Glassmorphism River Cards */
+        .river-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 16px;
             padding: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            box-shadow:
+                0 4px 30px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .river-panel h2 {
-            font-size: 1rem;
-            color: #1f2937;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .river-card {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 12px;
-            padding: 16px;
-            border-left: 4px solid #f59e0b;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .river-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-
-        .river-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .stat {
-            background: rgba(0, 0, 0, 0.03);
-            padding: 8px;
-            border-radius: 8px;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
+        .river-card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
 
         /* LRC Special 6-level classification */
-        .status-not-runnable { background: #f6f7f9; color: #6b7280; }
-        .status-good-low { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #92400e; }
-        .status-shitty-medium { background: linear-gradient(135deg, #d4a574 0%, #a67c52 100%); color: #fff; }
-        .status-good-medium { background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%); color: #166534; }
-        .status-good-high { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #fff; }
-        .status-too-high { background: linear-gradient(135deg, #fca5a5 0%, #ef4444 100%); color: #fff; }
+        .river-card.status-not-runnable { border-left: 4px solid #9ca3af; }
+        .river-card.status-good-low { border-left: 4px solid #fbbf24; }
+        .river-card.status-shitty-medium { border-left: 4px solid #a67c52; }
+        .river-card.status-good-medium { border-left: 4px solid #86efac; }
+        .river-card.status-good-high { border-left: 4px solid #22c55e; }
+        .river-card.status-too-high { border-left: 4px solid #ef4444; }
 
-        .weather-row {
+        .river-header {
             display: flex;
-            gap: 12px;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            color: #4b5563;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
         }
 
-        .qpf-row {
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .qpf-title {
-            font-size: 0.7rem;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .qpf-values {
-            display: flex;
-            gap: 12px;
-            font-size: 0.85rem;
-        }
-
-        .qpf-day {
-            color: #4b5563;
-        }
-
-        .qpf-day strong {
+        .river-name {
+            font-size: 1rem;
+            font-weight: 600;
             color: #1f2937;
         }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #6b7280;
+        .river-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .error {
-            text-align: center;
-            padding: 20px;
+        .river-status.not-runnable { background: #e5e7eb; color: #6b7280; }
+        .river-status.good-low { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; }
+        .river-status.shitty-medium { background: linear-gradient(135deg, #d4a574, #a67c52); color: white; }
+        .river-status.good-medium { background: linear-gradient(135deg, #bbf7d0, #86efac); color: #166534; }
+        .river-status.good-high { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+        .river-status.too-high { background: linear-gradient(135deg, #fca5a5, #ef4444); color: white; }
+
+        .river-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .metric {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .metric-value.rising {
+            color: #22c55e;
+        }
+
+        .metric-value.falling {
             color: #ef4444;
         }
 
-        /* Level guide */
-        .level-guide {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(0,0,0,0.1);
+        .metric-unit {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #6b7280;
+        }
+
+        /* Weather Summary */
+        .weather-summary {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 8px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            text-align: center;
+        }
+
+        .weather-item {
+            padding: 8px;
+        }
+
+        .weather-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .weather-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .weather-label {
+            font-size: 0.65rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* QPF Card */
+        .qpf-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .qpf-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .qpf-days {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .qpf-day {
+            text-align: center;
+            flex: 1;
+        }
+
+        .qpf-day-label {
+            font-size: 0.65rem;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+
+        .qpf-day-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        /* Level Guide Card */
+        .level-guide-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(146, 64, 14, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
         }
 
         .level-guide-title {
-            font-size: 0.7rem;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #d97706;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .level-guide-items {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
         }
 
         .level-item {
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 4px;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 500;
         }
 
+        .level-item.not-runnable { background: #f6f7f9; color: #6b7280; }
+        .level-item.good-low { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; }
+        .level-item.shitty-medium { background: linear-gradient(135deg, #d4a574, #a67c52); color: white; }
+        .level-item.good-medium { background: linear-gradient(135deg, #bbf7d0, #86efac); color: #166534; }
+        .level-item.good-high { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; }
+        .level-item.too-high { background: linear-gradient(135deg, #fca5a5, #ef4444); color: white; }
+
+        /* Locations Card */
+        .locations-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .locations-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #16a34a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .location-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.15);
+        }
+
+        .location-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .location-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .location-link {
+            font-size: 0.75rem;
+            color: #16a34a;
+            text-decoration: none;
+            padding: 4px 8px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .location-link:hover {
+            background: rgba(34, 197, 94, 0.2);
+        }
+
+        /* AQI Card */
+        .aqi-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .aqi-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #16a34a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .aqi-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .aqi-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .aqi-category {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+
+        .aqi-pm25 {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            color: #6b7280;
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #f59e0b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.7rem;
+            color: #9ca3af;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #f59e0b;
+            text-decoration: none;
+        }
+
+        /* Responsive */
         @media (max-width: 900px) {
-            .dashboard {
+            .main-container {
                 grid-template-columns: 1fr;
-                grid-template-rows: auto 300px auto auto;
             }
 
             .map-panel {
-                grid-column: 1;
-                grid-row: 2;
-            }
-
-            .right-panel {
-                grid-column: 1;
-                grid-row: 3 / 5;
+                height: 300px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="dashboard">
-        <div class="header">
-            <a href="/" class="back-link">&larr; All Rivers</a>
+    <header class="header">
+        <a href="/" class="back-link">&larr; All Rivers</a>
+        <div class="logo">
+            <span class="logo-icon">🛶</span>
             <h1>Paddle Watch for Little River Canyon</h1>
         </div>
+        <div class="header-info">
+            <span class="status-dot"></span>
+            <span>Live</span>
+            <span id="last-update">Loading...</span>
+        </div>
+    </header>
 
+    <main class="main-container">
+        <!-- Left Panel: Wind Map -->
         <div class="map-panel">
-            <!-- Windy.com embed centered on Little River Canyon area -->
             <iframe
                 src="https://embed.windy.com/embed2.html?lat=34.37&lon=-85.63&detailLat=34.37&detailLon=-85.63&zoom=11&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=true&calendar=now&pressure=true&type=map&location=coordinates&detail=true&metricWind=mph&metricTemp=%C2%B0F&radarRange=-1"
                 allowfullscreen>
             </iframe>
         </div>
 
+        <!-- Right Panel -->
         <div class="right-panel">
-            <div class="webcam-panel">
-                <div class="webcam-header">
-                    <h3>Albertville - Sand Mountain</h3>
-                    <span class="live-badge">LIVE</span>
+            <!-- Webcam Section -->
+            <div class="webcam-section">
+                <div class="webcam-label">
+                    <span class="live-indicator"></span>
+                    Albertville - Sand Mountain
                 </div>
-                <div class="webcam-container">
-                    <img
-                        id="weather-cam"
-                        src="https://ftp2.waaytv.com/weather/31albertville.jpg"
-                        alt="Albertville Weather Camera"
-                    />
-                </div>
-                <div class="webcam-footer">
-                    WAAY 31 - Sand Mountain Park & Amphitheater
-                </div>
+                <img
+                    id="weather-cam"
+                    src="https://ftp2.waaytv.com/weather/31albertville.jpg"
+                    alt="Albertville Weather Camera"
+                />
             </div>
 
-            <div class="river-panel">
-                <h2>River Status</h2>
-                <div id="river-data" class="loading">Loading river data...</div>
+            <!-- River Data Section -->
+            <div class="river-section">
+                <div class="section-title">River Status</div>
+
+                <div id="river-cards">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        Loading river data...
+                    </div>
+                </div>
+
+                <div class="footer">
+                    Data from <a href="https://docker-blue-sound-1751.fly.dev/" target="_blank">USGS River Levels API</a>
+                    &bull; Updated every 60s
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        // Refresh weather camera every 60 seconds (WAAY updates ~every 3 min)
+        // Refresh weather camera every 60 seconds
         const weatherCam = document.getElementById('weather-cam');
         const camBaseUrl = 'https://ftp2.waaytv.com/weather/31albertville.jpg';
 
@@ -361,87 +602,183 @@
 
         // LRC special 6-level classification
         function getLRCStatus(cfs) {
-            if (cfs < 250) return { class: 'status-not-runnable', label: 'Not Runnable' };
-            if (cfs < 400) return { class: 'status-good-low', label: 'Good Low' };
-            if (cfs < 800) return { class: 'status-shitty-medium', label: 'Shitty Medium' };
-            if (cfs < 1500) return { class: 'status-good-medium', label: 'Good Medium' };
-            if (cfs < 2500) return { class: 'status-good-high', label: 'BEST!' };
-            return { class: 'status-too-high', label: 'Too High' };
+            if (cfs < 250) return { class: 'not-runnable', label: 'Not Runnable' };
+            if (cfs < 400) return { class: 'good-low', label: 'Good Low' };
+            if (cfs < 800) return { class: 'shitty-medium', label: 'Shitty Medium' };
+            if (cfs < 1500) return { class: 'good-medium', label: 'Good Medium' };
+            if (cfs < 2500) return { class: 'good-high', label: 'BEST!' };
+            return { class: 'too-high', label: 'Too High' };
         }
 
         async function fetchRiverData() {
-            const container = document.getElementById('river-data');
-
             try {
                 const response = await fetch('/api/river/lrc');
                 const river = await response.json();
-
-                if (river.error || !river.data) {
-                    container.innerHTML = `<div class="error">Unable to load river data</div>`;
-                    return;
-                }
-
-                const data = river.data;
-                const cfs = data.flow_cfs || 0;
-                const status = getLRCStatus(cfs);
-
-                // Weather info
-                const weather = data.weather || {};
-                const temp = weather.temp_f !== undefined ? `${weather.temp_f}°F` : '--';
-                const wind = weather.wind_mph !== undefined ? `${weather.wind_mph} mph ${weather.wind_dir || ''}` : '--';
-
-                // QPF (rainfall forecast)
-                const qpf = data.qpf || {};
-
-                container.innerHTML = `
-                    <div class="river-card">
-                        <div class="river-name">${river.name}</div>
-                        <div class="river-stats">
-                            <div class="stat">
-                                <div class="stat-label">Flow</div>
-                                <div class="stat-value">${data.flow || cfs + ' cfs'}</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-label">Trend</div>
-                                <div class="stat-value">${data.trend || '-- '}</div>
-                            </div>
-                        </div>
-                        <span class="status-badge ${status.class}">${status.label}</span>
-                        <div class="weather-row">
-                            <span>Temp: ${temp}</span>
-                            <span>Wind: ${wind}</span>
-                        </div>
-                        ${qpf.today !== undefined ? `
-                        <div class="qpf-row">
-                            <div class="qpf-title">Rain Forecast</div>
-                            <div class="qpf-values">
-                                <span class="qpf-day">Today: <strong>${qpf.today.toFixed(2)}"</strong></span>
-                                <span class="qpf-day">Tom: <strong>${(qpf.tomorrow || 0).toFixed(2)}"</strong></span>
-                                <span class="qpf-day">Day 3: <strong>${(qpf.day3 || 0).toFixed(2)}"</strong></span>
-                            </div>
-                        </div>
-                        ` : ''}
-                        <div class="level-guide">
-                            <div class="level-guide-title">LRC Flow Guide</div>
-                            <div class="level-guide-items">
-                                <span class="level-item status-not-runnable">&lt;250 Out</span>
-                                <span class="level-item status-good-low">250-400 Low</span>
-                                <span class="level-item status-shitty-medium">400-800 Meh</span>
-                                <span class="level-item status-good-medium">800-1500 Good</span>
-                                <span class="level-item status-good-high">1500-2500 BEST</span>
-                                <span class="level-item status-too-high">&gt;2500 High</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                renderRiverCard(river);
+                updateTimestamp();
             } catch (error) {
                 console.error('Error fetching river data:', error);
-                container.innerHTML = `<div class="error">Error loading data</div>`;
+                document.getElementById('river-cards').innerHTML = `
+                    <div class="loading">Error loading data. Retrying...</div>
+                `;
             }
         }
 
-        // Initial fetch and refresh every 60 seconds
+        function renderRiverCard(river) {
+            const container = document.getElementById('river-cards');
+
+            if (river.error || !river.data) {
+                container.innerHTML = `
+                    <div class="river-card status-not-runnable">
+                        <div class="river-header">
+                            <span class="river-name">${river.name || 'Little River Canyon'}</span>
+                            <span class="river-status not-runnable">Error</span>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Status</div>
+                            <div class="metric-value">${river.error || 'Unable to load data'}</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const d = river.data;
+            const cfs = d.cfs || 0;
+            const status = getLRCStatus(cfs);
+
+            // Parse trend
+            const trend = d.trend || '';
+            const trendClass = trend.includes('rising') ? 'rising' : (trend.includes('falling') ? 'falling' : '');
+            const trendArrow = trend.includes('rising') ? '↗' : (trend.includes('falling') ? '↘' : '→');
+
+            // Weather
+            const weather = d.weather || {};
+            const temp = weather.temp_f;
+            const wind = weather.wind_mph;
+            const windDir = weather.wind_dir || '';
+
+            // QPF
+            const qpf = d.qpf || {};
+
+            // AQI
+            const aqi = d.aqi || {};
+
+            let html = `
+                <div class="river-card status-${status.class}">
+                    <div class="river-header">
+                        <span class="river-name">${river.name}</span>
+                        <span class="river-status ${status.class}">${status.label}</span>
+                    </div>
+                    <div class="river-metrics">
+                        <div class="metric">
+                            <div class="metric-label">Flow</div>
+                            <div class="metric-value">${d.flow || cfs + ' cfs'}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Trend</div>
+                            <div class="metric-value ${trendClass}">${trendArrow} ${trend.replace('->', '').replace('^', '').replace('v', '').trim() || 'steady'}</div>
+                        </div>
+                    </div>
+                </div>
+
+                ${temp !== undefined ? `
+                <div class="weather-summary">
+                    <div class="weather-grid">
+                        <div class="weather-item">
+                            <div class="weather-icon">${temp < 45 ? '❄️' : temp < 60 ? '🌤️' : '☀️'}</div>
+                            <div class="weather-value">${temp}°F</div>
+                            <div class="weather-label">Temp</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-icon">💨</div>
+                            <div class="weather-value">${wind || 0} mph</div>
+                            <div class="weather-label">${windDir || 'Wind'}</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-icon">🌧️</div>
+                            <div class="weather-value">${((qpf.today || 0) + (qpf.tomorrow || 0) + (qpf.day3 || 0)).toFixed(2)}"</div>
+                            <div class="weather-label">3-Day Rain</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qpf-card">
+                    <div class="qpf-title">🌧️ Rain Forecast (QPF)</div>
+                    <div class="qpf-days">
+                        <div class="qpf-day">
+                            <div class="qpf-day-label">Today</div>
+                            <div class="qpf-day-value">${(qpf.today || 0).toFixed(2)}"</div>
+                        </div>
+                        <div class="qpf-day">
+                            <div class="qpf-day-label">Tomorrow</div>
+                            <div class="qpf-day-value">${(qpf.tomorrow || 0).toFixed(2)}"</div>
+                        </div>
+                        <div class="qpf-day">
+                            <div class="qpf-day-label">Day 3</div>
+                            <div class="qpf-day-value">${(qpf.day3 || 0).toFixed(2)}"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="level-guide-card">
+                    <div class="level-guide-title">📊 LRC Flow Guide</div>
+                    <div class="level-guide-items">
+                        <span class="level-item not-runnable">&lt;250 Out</span>
+                        <span class="level-item good-low">250-400 Low</span>
+                        <span class="level-item shitty-medium">400-800 Meh</span>
+                        <span class="level-item good-medium">800-1500 Good</span>
+                        <span class="level-item good-high">1500-2500 BEST</span>
+                        <span class="level-item too-high">&gt;2500 High</span>
+                    </div>
+                </div>
+
+                <div class="locations-card">
+                    <div class="locations-title">📍 LRC Paddle Locations</div>
+                    <div class="location-item">
+                        <span class="location-label">Canyon Mouth (Put-in)</span>
+                        <a class="location-link" href="https://maps.app.goo.gl/YmVnXkZwQ5tPp2Gm7" target="_blank">34.3736, -85.6347 ↗</a>
+                    </div>
+                    <div class="location-item">
+                        <span class="location-label">DeSoto Falls (Scout)</span>
+                        <a class="location-link" href="https://maps.app.goo.gl/Uy8yqRGz2GWKZ6Xq7" target="_blank">34.3545, -85.5912 ↗</a>
+                    </div>
+                </div>
+
+                ${aqi.aqi !== undefined ? `
+                <div class="aqi-card">
+                    <div class="aqi-title">🌬️ Air Quality</div>
+                    <div class="aqi-content">
+                        <div>
+                            <span class="aqi-value" style="color: ${aqi.color || '#888'}">
+                                ${aqi.aqi}
+                            </span>
+                            <span class="aqi-category" style="color: ${aqi.color || '#888'}">
+                                ${aqi.category || ''}
+                            </span>
+                        </div>
+                        <div class="aqi-pm25">
+                            PM2.5: ${(aqi.pm2_5 || 0).toFixed(1)} μg/m³
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
+                ` : ''}
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('last-update').textContent =
+                now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        }
+
+        // Initial load
         fetchRiverData();
+
+        // Refresh every 60 seconds
         setInterval(fetchRiverData, 60000);
     </script>
 </body>
