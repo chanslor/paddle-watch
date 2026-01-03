@@ -63,20 +63,7 @@ This project was inspired by [Windy.com's webcam interface](https://www.windy.co
 
 ### River Dashboard Layout
 
-```
-┌─────────────────────────────────────┬────────────────────────┐
-│                                     │   LIVE WEBCAM          │
-│      WINDY.COM WIND MAP             │                        │
-│                                     │                        │
-│   • Animated wind visualization     ├────────────────────────┤
-│   • Temperature overlay             │   RIVER STATUS         │
-│   • Centered on paddle spots        │                        │
-│   • Interactive zoom/pan            │   River Name           │
-│                                     │   ████░░ 96 cfs ↘      │
-│                                     │                        │
-│                                     │   Weather + QPF        │
-└─────────────────────────────────────┴────────────────────────┘
-```
+![Example Page](example-page.png)
 
 ---
 
