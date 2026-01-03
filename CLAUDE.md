@@ -45,41 +45,9 @@ fly status -a paddle-watch
 fly logs -a paddle-watch
 ```
 
-## Architecture
+## River Dashboard Layout
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Fly.io: paddle-watch.fly.dev                               │
-│                                                             │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │  Flask App (app.py)                                   │  │
-│  │                                                       │  │
-│  │  Page Routes:                                         │  │
-│  │  • GET /                    → Index landing page      │  │
-│  │  • GET /south-sauty-short-creek → Guntersville dash   │  │
-│  │  • GET /little-river-canyon → LRC dashboard           │  │
-│  │                                                       │  │
-│  │  API Routes:                                          │  │
-│  │  • GET /api/rivers          → Short Creek + Sauty     │  │
-│  │  • GET /api/river/lrc       → Little River Canyon     │  │
-│  │  • GET /api/health          → Health check            │  │
-│  └───────────────────────────────────────────────────────┘  │
-│                                                             │
-│  External Embeds (loaded in browser):                       │
-│  • Windy.com iframe   → Wind map (per-page coordinates)    │
-│  • IPCamLive iframe   → Guntersville webcam                │
-│  • WAAY 31 image      → Albertville weather camera         │
-└─────────────────────────────────────────────────────────────┘
-              │
-              ↓
-┌─────────────────────────────────────────────────────────────┐
-│  Main API: docker-blue-sound-1751.fly.dev                   │
-│                                                             │
-│  • /api/river-levels/name/short  → Short Creek data        │
-│  • /api/river-levels/03572690    → South Sauty data        │
-│  • /api/river-levels/02399200    → Little River Canyon     │
-└─────────────────────────────────────────────────────────────┘
-```
+![Example Page](example-page.png)
 
 ## File Structure
 
