@@ -118,7 +118,9 @@
 
         /* Webcam Section */
         .webcam-section {
-            flex: 0 0 45%;
+            flex: 0 0 30%;
+            min-height: 150px;
+            max-height: 250px;
             position: relative;
             background: #000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -158,18 +160,18 @@
         /* River Data Section */
         .river-section {
             flex: 1;
-            padding: 20px;
+            padding: 12px;
             overflow-y: auto;
             background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
         }
 
         .section-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: #6b7280;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
         }
 
         /* Glassmorphism River Cards */
@@ -177,19 +179,11 @@
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
             box-shadow:
                 0 4px 30px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .river-card:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 8px 40px rgba(0, 0, 0, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
 
@@ -209,20 +203,20 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .river-name {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: #1f2937;
         }
 
         .river-status {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -245,13 +239,13 @@
         .river-metrics {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 8px;
         }
 
         .metric {
             background: rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 8px;
         }
 
         .metric-label {
@@ -264,7 +258,7 @@
         }
 
         .metric-value {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #1f2937;
         }
@@ -285,10 +279,10 @@
 
         /* Sparkline */
         .sparkline-container {
-            margin-top: 12px;
+            margin-top: 8px;
             background: rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 8px;
         }
 
         .sparkline-label {
@@ -297,14 +291,14 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: #6b7280;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .sparkline {
             display: flex;
             align-items: flex-end;
             gap: 2px;
-            height: 40px;
+            height: 32px;
         }
 
         .sparkline-bar {
@@ -328,8 +322,8 @@
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 10px;
             margin-top: 8px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
@@ -337,27 +331,27 @@
         .weather-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 8px;
             text-align: center;
         }
 
         .weather-item {
-            padding: 8px;
+            padding: 6px;
         }
 
         .weather-icon {
-            font-size: 1.5rem;
-            margin-bottom: 4px;
+            font-size: 1.25rem;
+            margin-bottom: 2px;
         }
 
         .weather-value {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: #1f2937;
         }
 
         .weather-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #6b7280;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -367,16 +361,16 @@
         .qpf-card {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
             border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 16px;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 8px;
         }
 
         .qpf-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #3b82f6;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -393,13 +387,13 @@
         }
 
         .qpf-day-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #6b7280;
             text-transform: uppercase;
         }
 
         .qpf-day-value {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #3b82f6;
         }
@@ -408,16 +402,16 @@
         .locations-card {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
             border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 16px;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 8px;
         }
 
         .locations-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #16a34a;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -427,7 +421,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
+            padding: 6px 0;
             border-bottom: 1px solid rgba(34, 197, 94, 0.15);
         }
 
@@ -437,16 +431,16 @@
         }
 
         .location-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
             color: #1f2937;
         }
 
         .location-link {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #16a34a;
             text-decoration: none;
-            padding: 4px 8px;
+            padding: 3px 6px;
             background: rgba(34, 197, 94, 0.1);
             border-radius: 6px;
             transition: background 0.2s;
@@ -460,16 +454,16 @@
         .aqi-card {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
             border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 16px;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 8px;
         }
 
         .aqi-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #16a34a;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -482,18 +476,18 @@
         }
 
         .aqi-value {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
         }
 
         .aqi-category {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 500;
             margin-left: 6px;
         }
 
         .aqi-pm25 {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #6b7280;
         }
 
@@ -533,6 +527,17 @@
         .footer a {
             color: #667eea;
             text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .map-panel {
+                height: 300px;
+            }
         }
     </style>
 </head>
